@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<delta:ModelTransformationDesignPattern xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:delta="http://hergin/delta" xsi:schemaLocation="http://hergin/delta ../metamodel/DelTa.ecore" name="ERMapping">
+  <units xsi:type="delta:Start" sourceBack="//@transformationUnitRelations.0"/>
+  <units xsi:type="delta:Rule" name="entityMapping" sourceBack="//@transformationUnitRelations.1" targetBack="//@transformationUnitRelations.0" isExhaustive="true">
+    <actions operatesOn="//@variables.1 //@variables.6"/>
+    <constraints operatesOn="//@variables.0"/>
+    <negativeConstraints operatesOn="//@variables.1 //@variables.6"/>
+  </units>
+  <units xsi:type="delta:Rule" name="relationMapping" sourceBack="//@transformationUnitRelations.2" targetBack="//@transformationUnitRelations.1" isExhaustive="true">
+    <actions operatesOn="//@variables.5"/>
+    <constraints operatesOn="//@variables.0 //@variables.1 //@variables.2 //@variables.3 //@variables.4 //@variables.6 //@variables.7"/>
+    <negativeConstraints operatesOn="//@variables.5"/>
+  </units>
+  <units xsi:type="delta:End" targetBack="//@transformationUnitRelations.2"/>
+  <patternMetamodels name="src">
+    <elements xsi:type="delta:Entity" name="sEnt" traceSourceBack="//@types.0" sourceBack="//@patternMetamodels.0/@elements.2"/>
+    <elements xsi:type="delta:Entity" name="sEnt2" traceSourceBack="//@types.1" targetBack="//@patternMetamodels.0/@elements.2"/>
+    <elements xsi:type="delta:Relation" name="rel1" source="//@patternMetamodels.0/@elements.0" target="//@patternMetamodels.0/@elements.1"/>
+  </patternMetamodels>
+  <patternMetamodels name="trgt">
+    <elements xsi:type="delta:Entity" name="tEnt" traceTargetBack="//@types.0" sourceBack="//@patternMetamodels.1/@elements.2"/>
+    <elements xsi:type="delta:Entity" name="tEnt2" traceTargetBack="//@types.1" targetBack="//@patternMetamodels.1/@elements.2"/>
+    <elements xsi:type="delta:Relation" name="rel2" source="//@patternMetamodels.1/@elements.0" target="//@patternMetamodels.1/@elements.1"/>
+  </patternMetamodels>
+  <types xsi:type="delta:Trace" name="sEntVtEnt" source="//@patternMetamodels.0/@elements.0" target="//@patternMetamodels.1/@elements.0"/>
+  <types xsi:type="delta:Trace" name="sEnt2VtEnt2" source="//@patternMetamodels.0/@elements.1" target="//@patternMetamodels.1/@elements.1"/>
+  <variables name="sEntVar" type="//@patternMetamodels.0/@elements.0"/>
+  <variables name="tEntVar" type="//@patternMetamodels.1/@elements.0"/>
+  <variables name="sEnt2Var" type="//@patternMetamodels.0/@elements.1"/>
+  <variables name="tEnt2Var" type="//@patternMetamodels.1/@elements.1"/>
+  <variables name="rel1Var" type="//@patternMetamodels.0/@elements.2"/>
+  <variables name="rel2Var" type="//@patternMetamodels.1/@elements.2"/>
+  <variables name="sEntVtEntTraceVar" type="//@types.0"/>
+  <variables name="sEnt2VtEnt2TraceVar" type="//@types.1"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.0" target="//@units.1"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.1" target="//@units.2"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.2" target="//@units.3"/>
+</delta:ModelTransformationDesignPattern>

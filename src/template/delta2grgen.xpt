@@ -1,0 +1,125 @@
+«IMPORT delta-»
+
+«EXTENSION template::grgenGeneral»
+
+«DEFINE main FOR ModelTransformationDesignPattern-»
+«FILE getDPName()+"_RULES.grg"-»
+«EXPAND patternMetamodel FOREACH patternMetamodels-»
+using Trace;
+«EXPAND unit FOREACH units-»
+«ENDFILE-»
+«ENDDEFINE-»
+
+«DEFINE patternMetamodel FOR PatternMetamodel-»
+using «getName(this.name)»;
+«ENDDEFINE-»
+
+«DEFINE unit FOR TransformationUnit-»
+«ERROR "should not happen"-»
+«ENDDEFINE-»
+
+«DEFINE unit FOR PseudoUnit-»
+«ERROR "should not happen"-»
+«ENDDEFINE-»
+
+«DEFINE unit FOR Rule-»
+«EXPAND annotation FOR annotation-»
+rule «getName(this.name)» {
+	«EXPAND constr FOR constraints-»
+	«IF !getConditions().isEmpty-»
+	if {
+		«EXPAND conditionTag FOREACH getConditions()-»
+	}
+	«ENDIF-»
+	«EXPAND negativeConst FOREACH negativeConstraints-»
+	«EXPAND action FOR actions-»
+	«IF !getActions().isEmpty-»
+	modify {
+		eval {
+			«EXPAND actionTag FOREACH getActions()-»
+		}
+	}
+	«ENDIF»
+}
+«ENDDEFINE-»
+
+«DEFINE actionTag FOR ActionTag-»
+			«getReferredVariable().type.name».«this.name»=«IF this.negation»false«ELSE»true«ENDIF»;
+«ENDDEFINE»
+
+«DEFINE conditionTag FOR ConditionTag-»
+		«getReferredVariable().type.name».«this.name»==«IF this.negation»false«ELSE»true«ENDIF»;
+«ENDDEFINE»
+
+«DEFINE annotation FOR Annotation-»
+#«this.note»
+«ENDDEFINE-»
+
+«DEFINE constr FOR Constraint-»
+	«EXPAND variable FOREACH operatesOn-»
+«ENDDEFINE-»
+
+«DEFINE action FOR Action»
+	modify {
+		«EXPAND variable FOREACH operatesOn-»
+	}
+«ENDDEFINE-»
+
+«DEFINE negativeConst FOR NegativeConstraint»
+	negative {
+		«EXPAND variable FOREACH operatesOn-»
+	}
+«ENDDEFINE-»
+
+«DEFINE variable FOR Variable-»
+«EXPAND annotation FOR annotation-»
+«EXPAND typeDef FOR this.type-»
+«ENDDEFINE-»
+
+«DEFINE typeDef FOR Type-»
+«ERROR "should not happen"-»
+«ENDDEFINE-»
+
+«DEFINE typeDef FOR Trace-»
+	«this.source.name»-:«getName('trace')»->«this.target.name»;
+«ENDDEFINE-»
+
+«DEFINE typeDef FOR Entity-»
+	«this.name-»:«getName(this.name)»;
+«ENDDEFINE-»
+
+«DEFINE typeDef FOR Relation-»
+	«this.source.name»-:«getName(this.name)»->«this.target.name»;
+«ENDDEFINE-»
+
+«DEFINE unit FOR Start-»
+«FILE getDPName()+"_SCHED.grs"-»
+«EXPAND sequenceRecursive FOR this.sourceBack-»
+«ENDFILE-»
+«ENDDEFINE-»
+
+«DEFINE sequenceRecursive FOR Sequence-»
+«EXPAND unitRecursive FOR this.target-»
+«ENDDEFINE-»
+
+«DEFINE unitRecursive FOR TransformationUnit-»
+«IF this.successBack != null-»(«ENDIF-»
+«IF this.conditionBack != null-»if{«getName(this.name)-»;true;false}«ELSE-»«getName(this.name)-»«ENDIF-»«EXPAND exhaustiveRule FOR this-»
+«IF this.sourceBack != null && !checkForEnd(this.sourceBack.target)-» ;> «ENDIF-»
+«EXPAND sequenceRecursive FOR this.sourceBack-»
+«IF this.sourceBack == null && this.conditionBack != null-»)*«ENDIF-»
+«ENDDEFINE-»
+
+«DEFINE exhaustiveRule FOR TransformationUnit-»
+«ENDDEFINE-»
+
+«DEFINE exhaustiveRule FOR Rule-»«IF this.isExhaustive-»*«ENDIF-»«ENDDEFINE-»
+
+«DEFINE decisionRecursive FOR Decision»
+«ENDDEFINE»
+
+«DEFINE unitRecursive FOR End-»
+«ENDDEFINE-»
+
+«DEFINE unit FOR End-»
+«ENDDEFINE-»

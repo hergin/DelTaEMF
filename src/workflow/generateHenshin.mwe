@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<workflow>
+
+	<property name="src-gen" value="src-gen" />
+	
+	<property name="visitorPattern" value="Visitor" />
+	<property name="ermappingPattern" value="ERMapping" />
+	
+	<property name="pattern" value="${ermappingPattern}" />
+	<property name="patternModel" value="platform:/resource/hergin.delta/src/designpattern/${pattern}.xmi" />
+	
+
+	<!-- set up EMF for standalone execution -->
+	<bean class="org.eclipse.emf.mwe.utils.StandaloneSetup" >
+		<platformUri value=".."/>
+	</bean>
+
+	<!-- instantiate metamodel -->
+	<bean id="mm_emf" class="org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel"/>
+
+	<!-- load model and store it in slot 'model' -->
+	<component class="org.eclipse.emf.mwe.utils.Reader">
+		<uri value="${patternModel}" />
+		<modelSlot value="model" />
+	</component>
+
+    <!-- Clear output directory -->
+	<component class="org.eclipse.emf.mwe.utils.DirectoryCleaner">
+			<directory value="${src-gen}"/>
+	</component>
+
+	<!--  generate code -->
+	<component class="org.eclipse.xpand2.Generator">
+		<metaModel idRef="mm_emf"/>
+		<expand
+			value="template::delta2henshin::main FOR model" />
+		<outlet path="${src-gen}" >
+			<postprocessor class="org.eclipse.xpand2.output.JavaBeautifier" />
+		</outlet>
+		<resourceManager class ="org.eclipse.xtend.expression.ResourceManagerDefaultImpl">
+			<fileEncoding value="ISO-8859-1"/>
+		</resourceManager>
+		<globalVarDef name="currentPattern" value="'${pattern}'"/>
+	</component>
+</workflow>

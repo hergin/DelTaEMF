@@ -1,0 +1,56 @@
+import delta;
+
+String currentPattern(): GLOBALVAR currentPattern;
+
+String getName(String s):
+	switch(currentPattern()) {
+		case 'ERMapping': getERMappingNames(s)
+		case 'Visitor': getVisitorNames(s)
+		default: s
+	};
+
+String getDPName():
+	getName('designPatternName');
+
+String getERMappingNames(String s):
+	switch(s) {
+		case 'src': 'CD'
+		case 'trgt': 'RD'
+		case 'sEnt': 'Class'
+		case 'tEnt': 'Table'
+		case 'sEnt2': 'Attribute'
+		case 'tEnt2': 'Column'
+		case 'rel1': 'attrs'
+		case 'rel2': 'cols'
+		case 'trace': 'trace'
+		case 'entityMapping': 'ClassMapping'
+		case 'relationMapping': 'AttributeRelationMapping'
+		case 'designPatternName': 'ERMapping'
+		default: s
+	};
+
+String getVisitorNames(String s):
+	switch(s) {
+		case 'mm': 'ClassDiagram'
+		case 'rel1': 'subclass'
+		case 'startEnt': 'Class'
+		case 'currentEnt': 'Class'
+		case 'nextEntity': 'Class'
+		case 'markInitEntity': 'markBaseClass'
+		case 'visitEntity': 'visitSubclass'
+		case 'markNextEntity': 'markSubclass'
+		case 'designPatternName': 'Visitor'
+		default: s
+	};
+	
+Boolean checkForEnd(Object e):
+	e.metaType==End;
+
+Rule getReferredRule(Constraint this):
+	(Rule)this.eContainer;
+
+Rule getReferredRule(Action this):
+	(Rule)this.eContainer;
+
+PatternMetamodel getReferredPM(Element this):
+	(PatternMetamodel)this.eContainer;

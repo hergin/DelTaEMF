@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<delta:ModelTransformationDesignPattern xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:delta="http://hergin/delta" xsi:schemaLocation="http://hergin/delta ../metamodel/DelTa.ecore" name="denemePP">
+  <units xsi:type="delta:Start" sourceBack="//@transformationUnitRelations.0"/>
+  <units xsi:type="delta:Rule" name="deneme123" sourceBack="//@transformationUnitRelations.1" targetBack="//@transformationUnitRelations.0">
+    <constraints operatesOn="//@variables.0"/>
+  </units>
+  <units xsi:type="delta:End" targetBack="//@transformationUnitRelations.1"/>
+  <patternMetamodels name="mm">
+    <elements xsi:type="delta:Entity" name="aa"/>
+  </patternMetamodels>
+  <variables name="aaVar" type="//@patternMetamodels.0/@elements.0"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.0" target="//@units.1"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.1" target="//@units.2"/>
+</delta:ModelTransformationDesignPattern>

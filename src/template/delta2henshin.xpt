@@ -1,0 +1,178 @@
+«IMPORT delta-»
+
+«EXTENSION template::henshinGeneral»
+
+«DEFINE main FOR ModelTransformationDesignPattern-»
+«FILE getDPName()+".henshin"-»
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="1235432123324">
+«EXPAND patternMetamodel FOREACH patternMetamodels-»
+	<imports href="http://www.eclipse.org/emf/2011/Henshin/Trace#/"/>
+«EXPAND unit FOREACH units-»
+«EXPAND schedUnitBlock FOR this»
+</henshin:Module>
+«ENDFILE-»
+«ENDDEFINE-»
+
+«DEFINE schedUnitBlock FOR ModelTransformationDesignPattern-»
+	«EXPAND schedUnit FOREACH units»
+«ENDDEFINE-»
+
+«DEFINE schedUnit FOR TransformationUnit-»
+«ENDDEFINE-»
+
+«DEFINE schedUnit FOR Start-»
+	<units xsi:type="henshin:SequentialUnit" xmi:id="«getDPName()»_SEQ_UNIT_ID" name="" subUnits="«EXPAND sequenceRecursive FOR this.sourceBack-»
+«ENDDEFINE-»
+
+«DEFINE sequenceRecursive FOR Sequence-»
+«EXPAND unitRecursive FOR this.target-»
+«ENDDEFINE-»
+
+«DEFINE unitRecursive FOR TransformationUnit-»
+«getName(this.name)-»_ID «EXPAND sequenceRecursive FOR this.sourceBack-»
+«ENDDEFINE-»
+
+«DEFINE unitRecursive FOR End-»"/>«ENDDEFINE-»
+
+«DEFINE patternMetamodel FOR PatternMetamodel-»
+	<imports href="«getName(this.name)».ecore#"/>
+«ENDDEFINE-»
+
+«DEFINE unit FOR TransformationUnit-»
+«ERROR "should not happen"-»
+«ENDDEFINE-»
+
+«DEFINE unit FOR PseudoUnit-»
+«ERROR "should not happen"-»
+«ENDDEFINE-»
+
+«DEFINE unit FOR Rule-»
+	<units xsi:type="henshin:Rule" xmi:id="«getName(this.name)»_ID" name="«getName(this.name)»">
+		<lhs xmi:id="«getName(this.name)»_LHS_ID" name="Lhs">
+			«EXPAND constr FOR constraints-»
+			«IF !negativeConstraints.isEmpty-»
+			<formula xsi:type="henshin:Not" xmi:id="«getName(this.name)»_NOT_ID">
+				<child xsi:type="henshin:NestedCondition" xmi:id="«getName(this.name)»_NESTED_ID">
+					<conclusion xmi:id="«getName(this.name)»_CONC_ID">
+						«EXPAND constr FOR constraints-»
+						«EXPAND negativeConst FOREACH negativeConstraints-»
+					</conclusion>
+					«EXPAND mapping FOR constraints-»
+				</child>
+			</formula>
+			«ENDIF-»
+		</lhs>
+    	<rhs xmi:id="«getName(this.name)»_RHS_ID" name="Rhs">
+    		«EXPAND action FOR actions-»
+    	</rhs>
+    	«EXPAND mapping FOR constraints-»
+    </units>
+«ENDDEFINE-»
+
+«DEFINE mapping FOR Constraint-»
+			«EXPAND mappingVariable FOREACH operatesOn-»
+«ENDDEFINE-»
+
+«DEFINE mappingVariable FOR Variable-»
+				«EXPAND mappingTypeDef FOR this.type-»
+«ENDDEFINE-»
+
+«DEFINE mappingTypeDef FOR Type-»
+«ERROR "should not happen"-»
+«ENDDEFINE-»
+
+«DEFINE mappingTypeDef FOR Trace-»
+		<mappings xmi:id="«this.name»_MAPPING" origin="«this.name»_LHS_ID" image="«this.name»_RHS_ID"/>
+«ENDDEFINE-»
+
+«DEFINE mappingTypeDef FOR Entity-»
+		<mappings xmi:id="«this.name»_MAPPING" origin="«this.name»_LHS_ID" image="«this.name»_RHS_ID"/>
+«ENDDEFINE-»
+
+«DEFINE mappingTypeDef FOR Relation-»
+		<mappings xmi:id="«this.name»_MAPPING" origin="«this.name»_LHS_ID" image="«this.name»_RHS_ID"/>
+«ENDDEFINE-»
+
+«DEFINE constr FOR Constraint-»
+				«EXPAND variableLHS FOREACH operatesOn-»
+«ENDDEFINE-»
+
+«DEFINE action FOR Action-»
+			«EXPAND variableRHS FOREACH getReferredRule().constraints.operatesOn-»
+			«EXPAND variableRHS FOREACH operatesOn-»
+«ENDDEFINE-»
+
+«DEFINE negativeConst FOR NegativeConstraint»
+			«EXPAND variableLHS FOREACH operatesOn-»
+«ENDDEFINE-»
+
+«DEFINE variableLHS FOR Variable-»
+				«EXPAND typeDefLHS FOR this.type-»
+«ENDDEFINE-»
+
+«DEFINE typeDefLHS FOR Type-»
+«ERROR "should not happen"-»
+«ENDDEFINE-»
+
+«DEFINE typeDefLHS FOR Trace-»
+			<nodes xmi:id="«this.name»_LHS_ID" outgoing="«this.name»_LHS_SOURCE_ID «this.name»_LHS_TARGET_ID">
+				<type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace"/>
+			</nodes>
+			<edges xmi:id="«this.name»_LHS_SOURCE_ID" source="«this.name»_LHS_ID" target="«this.source.name»_LHS_ID">
+				<type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/source"/>
+			</edges>
+			<edges xmi:id="«this.name»_LHS_TARGET_ID" source="«this.name»_LHS_ID" target="«this.target.name»_LHS_ID">
+				<type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/target"/>
+			</edges>
+«ENDDEFINE-»
+
+«DEFINE typeDefLHS FOR Entity-»
+			<nodes xmi:id="«this.name»_LHS_ID" incoming="PUT IDs HERE" outgoing="PUT IDs HERE">
+				<type href="«getName(getReferredPM().name)».ecore#//«getName(this.name)»"/>
+			</nodes>
+«ENDDEFINE-»
+
+«DEFINE typeDefLHS FOR Relation-»
+			<edges xmi:id="«this.name»_LHS_ID" source="PUT IDs HERE" target="PUT IDs HERE">
+				<type href="«getName(getReferredPM().name)».ecore#//«getName(this.source.name)»/«getName(this.name)»"/>
+			</edges>
+«ENDDEFINE-»
+
+«DEFINE variableRHS FOR Variable-»
+				«EXPAND typeDefRHS FOR this.type-»
+«ENDDEFINE-»
+
+«DEFINE typeDefRHS FOR Type-»
+«ERROR "should not happen"-»
+«ENDDEFINE-»
+
+«DEFINE typeDefRHS FOR Trace-»
+			<nodes xmi:id="«this.name»_RHS_ID" outgoing="«this.name»_RHS_SOURCE_ID «this.name»_RHS_TARGET_ID">
+				<type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace"/>
+			</nodes>
+			<edges xmi:id="«this.name»_RHS_SOURCE_ID" source="«this.name»_RHS_ID" target="«this.source.name»_RHS_ID">
+				<type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/source"/>
+			</edges>
+			<edges xmi:id="«this.name»_RHS_TARGET_ID" source="«this.name»_RHS_ID" target="«this.target.name»_RHS_ID">
+				<type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/target"/>
+			</edges>
+«ENDDEFINE-»
+
+«DEFINE typeDefRHS FOR Entity-»
+			<nodes xmi:id="«this.name»_RHS_ID" incoming="PUT IDs HERE" outgoing="PUT IDs HERE">
+				<type href="«getName(getReferredPM().name)».ecore#//«getName(this.name)»"/>
+			</nodes>
+«ENDDEFINE-»
+
+«DEFINE typeDefRHS FOR Relation-»
+			<edges xmi:id="«this.name»_RHS_ID" source="PUT IDs HERE" target="PUT IDs HERE">
+				<type href="«getName(getReferredPM().name)».ecore#//«getName(this.source.name)»/«getName(this.name)»"/>
+			</edges>
+«ENDDEFINE-»
+
+«DEFINE unit FOR Start-»
+«ENDDEFINE-»
+
+«DEFINE unit FOR End-»
+«ENDDEFINE-»

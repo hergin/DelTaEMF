@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<delta:ModelTransformationDesignPattern xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:delta="http://hergin/delta" xsi:schemaLocation="http://hergin/delta ../metamodel/DelTa.ecore" name="Visitor">
+  <units xsi:type="delta:Start" sourceBack="//@transformationUnitRelations.0"/>
+  <units xsi:type="delta:Rule" annotation="//@annotations.0" name="markInitEntity" sourceBack="//@transformationUnitRelations.1" targetBack="//@transformationUnitRelations.0">
+    <constraints operatesOn="//@variables.0"/>
+  </units>
+  <units xsi:type="delta:Rule" name="visitEntity" sourceBack="//@transformationUnitRelations.2" targetBack="//@transformationUnitRelations.1" successBack="//@transformationUnitRelations.3" isExhaustive="true">
+    <constraints operatesOn="//@variables.1"/>
+  </units>
+  <units xsi:type="delta:Rule" name="markNextEntity" targetBack="//@transformationUnitRelations.2" conditionBack="//@transformationUnitRelations.3" isExhaustive="true">
+    <constraints operatesOn="//@variables.2 //@variables.3 //@variables.4"/>
+  </units>
+  <units xsi:type="delta:End" failBack="//@transformationUnitRelations.3"/>
+  <patternMetamodels name="mm">
+    <elements xsi:type="delta:Entity" name="startEnt"/>
+    <elements xsi:type="delta:Entity" name="currentEnt" sourceBack="//@patternMetamodels.0/@elements.2"/>
+    <elements xsi:type="delta:Relation" name="rel1" source="//@patternMetamodels.0/@elements.1" target="//@patternMetamodels.0/@elements.3"/>
+    <elements xsi:type="delta:Entity" name="nextEntity" targetBack="//@patternMetamodels.0/@elements.2"/>
+  </patternMetamodels>
+  <variables name="startEntVar" type="//@patternMetamodels.0/@elements.0">
+    <tags xsi:type="delta:ActionTag" name="mark"/>
+  </variables>
+  <variables name="currentEntVarInVisit" type="//@patternMetamodels.0/@elements.1">
+    <tags xsi:type="delta:ConditionTag" name="mark"/>
+    <tags xsi:type="delta:ConditionTag" name="process" negation="true"/>
+    <tags xsi:type="delta:ActionTag" name="process"/>
+  </variables>
+  <variables name="currentEntInMarkNext" type="//@patternMetamodels.0/@elements.1">
+    <tags xsi:type="delta:ConditionTag" name="process"/>
+  </variables>
+  <variables name="rel1Var" type="//@patternMetamodels.0/@elements.2"/>
+  <variables name="nextEntityVar" type="//@patternMetamodels.0/@elements.3">
+    <tags xsi:type="delta:ConditionTag" name="mark" negation="true"/>
+    <tags xsi:type="delta:ActionTag" name="mark"/>
+  </variables>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.0" target="//@units.1"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.1" target="//@units.2"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.2" target="//@units.3"/>
+  <transformationUnitRelations xsi:type="delta:Decision" condition="//@units.3" success="//@units.2" fail="//@units.4"/>
+  <annotations note="startEnt is a preset entity"/>
+</delta:ModelTransformationDesignPattern>
