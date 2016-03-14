@@ -1,4 +1,4 @@
--- @path DelTa=/ATLdeneme/DelTa.ecore
+-- @path DelTa=/DelTaEMF/src/metamodel/DelTa.ecore
 -- @nsURI Henshin=http://www.eclipse.org/emf/2011/Henshin
 module delta2henshin;
 
@@ -37,5 +37,6 @@ rule mtdp2module {
 		modl: Henshin!Module (
 			name <- mtdp.name,
 			units <- Henshin!Rule.allInstances().append(Henshin!SequentialUnit.allInstances())
+			-- TODO put other elements too as they are created
 		)
 }
