@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deltaconfig:DeltaConfiguration
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:deltaconfig="http://hergin/deltaconfig"
+    xsi:schemaLocation="http://hergin/deltaconfig ../metamodel/DelTaConfig.ecore">
+  <configs key="sEnt"
+      value="Class"/>
+  <configs key="tEnt"
+      value="Table"/>
+  <configs key="entityMapping"
+      value="class2table"/>
+  <configs key="relationMapping"
+      value="attribute2column"/>
+</deltaconfig:DeltaConfiguration>
