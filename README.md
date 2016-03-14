@@ -14,7 +14,7 @@ There are:
   - ATL launch configurations for different transformation cases (src/atl/launch/*.launch)
 - [XPand] templates from DelTa to Henshin and GrGEN.NET along with helpers (template/*xpt and template/*.ext)
   - XPand workflows for Henshin and GrGEN.NET (workflow/*.mwe)
-- Generator GUI in Java [not fully functional yet] (src/io.github.hergin.delta.*)
+- Generator GUI in Java (not fully functional yet) (src/io.github.hergin.delta.*)
 
 [ATL]: <https://eclipse.org/atl/>
 [XPand]: <https://eclipse.org/modeling/m2t/?project=xpand>
