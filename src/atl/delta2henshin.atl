@@ -1,15 +1,25 @@
 -- @path DelTa=/DelTaEMF/src/metamodel/DelTa.ecore
+-- @path DelTaConfig=/DelTaEMF/src/metamodel/DelTaConfig.ecore
 -- @nsURI Henshin=http://www.eclipse.org/emf/2011/Henshin
 module delta2henshin;
 
-create OUT: Henshin from IN: DelTa;
+create OUT: Henshin from IN: DelTa, IN2: DelTaConfig;
+
+helper context OclAny def : getMappedName(k:String) : String =
+	let configItem : Sequence(DelTaConfig!ConfigItem) = DelTaConfig!ConfigItem.allInstances()->select(cfg | cfg.key=k) in
+	if configItem.isEmpty() then
+		k
+	else
+		configItem.first().value
+	endif
+	;
 
 rule DeltaRule2HenshinRule {
 	from
 		r: DelTa!Rule
 	to
 		hr: Henshin!Rule (
-			name <- r.name
+			name <- r.getMappedName(r.name)
 		)
 }
 
@@ -35,7 +45,7 @@ rule mtdp2module {
 		mtdp: DelTa!ModelTransformationDesignPattern
 	to
 		modl: Henshin!Module (
-			name <- mtdp.name,
+			name <- mtdp.getMappedName(mtdp.name),
 			units <- Henshin!Rule.allInstances().append(Henshin!SequentialUnit.allInstances())
 			-- TODO put other elements too as they are created
 		)
