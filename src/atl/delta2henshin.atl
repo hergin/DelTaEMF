@@ -13,16 +13,6 @@ rule DeltaRule2HenshinRule {
 		)
 }
 
-lazy rule mtdp2module {
-	from
-		mtdp: DelTa!ModelTransformationDesignPattern
-	to
-		modl: Henshin!Module (
-			name <- mtdp.name,
-			units <- DelTa!Rule.allInstances()
-		)
-}
-
 helper context DelTa!TransformationUnit def : getSequencedRules() : OrderedSet(DelTa!TransformationUnit) =
 	if self.sourceBack.target.oclIsTypeOf(DelTa!Rule) then
 		OrderedSet{}.append(self.sourceBack.target).append(self.sourceBack.target.getSequencedRules())
@@ -37,5 +27,15 @@ rule createSequence {
 	to
 		su: Henshin!SequentialUnit (
 			subUnits <- st.getSequencedRules()
+		)
+}
+
+rule mtdp2module {
+	from
+		mtdp: DelTa!ModelTransformationDesignPattern
+	to
+		modl: Henshin!Module (
+			name <- mtdp.name,
+			units <- Henshin!Rule.allInstances().append(Henshin!SequentialUnit.allInstances())
 		)
 }
