@@ -1,0 +1,41 @@
+-- @path DelTa=/ATLdeneme/DelTa.ecore
+-- @nsURI Henshin=http://www.eclipse.org/emf/2011/Henshin
+module delta2henshin;
+
+create OUT: Henshin from IN: DelTa;
+
+rule DeltaRule2HenshinRule {
+	from
+		r: DelTa!Rule
+	to
+		hr: Henshin!Rule (
+			name <- r.name
+		)
+}
+
+lazy rule mtdp2module {
+	from
+		mtdp: DelTa!ModelTransformationDesignPattern
+	to
+		modl: Henshin!Module (
+			name <- mtdp.name,
+			units <- DelTa!Rule.allInstances()
+		)
+}
+
+helper context DelTa!TransformationUnit def : getSequencedRules() : OrderedSet(DelTa!TransformationUnit) =
+	if self.sourceBack.target.oclIsTypeOf(DelTa!Rule) then
+		OrderedSet{}.append(self.sourceBack.target).append(self.sourceBack.target.getSequencedRules())
+	else
+		OrderedSet{}
+	endif
+	;
+
+rule createSequence {
+	from
+		st: DelTa!Start
+	to
+		su: Henshin!SequentialUnit (
+			subUnits <- st.getSequencedRules()
+		)
+}
