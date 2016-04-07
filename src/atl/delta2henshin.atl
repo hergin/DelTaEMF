@@ -1,6 +1,7 @@
 -- @path DelTa=/DelTaEMF/src/metamodel/DelTa.ecore
 -- @path DelTaConfig=/DelTaEMF/src/metamodel/DelTaConfig.ecore
 -- @nsURI Henshin=http://www.eclipse.org/emf/2011/Henshin
+-- @nsURI Ecore=http://www.eclipse.org/emf/2002/Ecore
 module delta2henshin;
 
 create OUT: Henshin from IN: DelTa, IN2: DelTaConfig;
@@ -46,7 +47,18 @@ rule mtdp2module {
 	to
 		modl: Henshin!Module (
 			name <- mtdp.getMappedName(mtdp.name),
-			units <- Henshin!Rule.allInstances().append(Henshin!SequentialUnit.allInstances())
+			units <- Henshin!Rule.allInstances().append(Henshin!SequentialUnit.allInstances()),
 			-- TODO put other elements too as they are created
+			imports <- Sequence{}.append(Henshin!EPackage.newInstance().refSetValue('nsURI', 'platform:/resource/DelTaEMF/src/metamodel/CD.ecore').refSetValue('nsPrefix', 'classdiagram').refSetValue('name', 'classdiagram'))
 		)
 }
+
+rule entity2node {
+	from
+		ent: DelTa!Entity
+	to
+		nd: Henshin!Node(
+			type <- Henshin!EClass.refSetValue('name', 'CD.ecore#//Class')
+		)
+}
+

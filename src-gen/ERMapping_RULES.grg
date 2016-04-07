@@ -1,0 +1,32 @@
+using CD;
+using RD;
+using Trace;
+rule ClassMapping {
+	sEnt:Class;
+	negative {
+		tEnt:Table;
+		sEnt-:trace->tEnt;
+	}
+	modify {
+		tEnt:Table;
+		sEnt-:trace->tEnt;
+	}	
+}
+rule AttributeRelationMapping {
+	sEnt:Class;
+	tEnt:Table;
+	sEnt2:Attribute;
+	tEnt2:Column;
+	sEnt-:attrs->sEnt2;
+	sEnt-:trace->tEnt;
+	sEnt2-:trace->tEnt2;
+	
+	negative {
+	tEnt-:cols->tEnt2;
+	}
+	
+	modify {
+	tEnt-:cols->tEnt2;
+	}
+	
+}
