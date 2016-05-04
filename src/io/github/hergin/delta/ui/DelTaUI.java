@@ -5,8 +5,15 @@
 package io.github.hergin.delta.ui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.*;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.mwe.core.WorkflowEngine;
+import org.eclipse.emf.mwe.core.monitor.NullProgressMonitor;
 
 
 /**
@@ -206,6 +213,20 @@ public class DelTaUI extends JPanel {
 		button1.setBounds(new Rectangle(new Point(665, 385), button1.getPreferredSize()));
 		add(comboBox2);
 		comboBox2.setBounds(110, 385, 135, 20);
+		
+		button1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				WorkflowEngine engine = new WorkflowEngine();
+
+				HashMap<String, String> params = new HashMap<String, String>();
+				params.put("pattern", "ERMapping");
+				
+				engine.run(URI.createFileURI("src/workflow/generateGrgen.mwe").toFileString(), new NullProgressMonitor(),
+						params, new HashMap<String, Object>());
+			}
+		});
 
 		//---- label15 ----
 		label15.setText("Target language");
