@@ -157,8 +157,6 @@ public class DelTaUI extends JPanel {
 		paramsLabel.setFont(paramsLabel.getFont().deriveFont(paramsLabel.getFont().getStyle() | Font.BOLD));
 		add(paramsLabel);
 		paramsLabel.setBounds(new Rectangle(new Point(730, 70), paramsLabel.getPreferredSize()));
-
-		dpImage.setText("text");
 		add(dpImage);
 
 		appLabel.setText("Generate Models from Design Patterns");

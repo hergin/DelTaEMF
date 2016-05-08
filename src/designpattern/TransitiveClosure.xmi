@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<delta:ModelTransformationDesignPattern xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:delta="http://hergin/delta" xsi:schemaLocation="http://hergin/delta ../metamodel/DelTa.ecore" name="TransitiveClosure">
+  <units xsi:type="delta:Start" sourceBack="//@transformationUnitRelations.0"/>
+  <units xsi:type="delta:Rule" name="immediateRelation" sourceBack="//@transformationUnitRelations.1" targetBack="//@transformationUnitRelations.0" isExhaustive="true">
+    <actions operatesOn="//@variables.3"/>
+    <constraints operatesOn="//@variables.0 //@variables.1 //@variables.6"/>
+    <negativeConstraints operatesOn="//@variables.3"/>
+  </units>
+  <units xsi:type="delta:Rule" name="recursiveRelation" sourceBack="//@transformationUnitRelations.2" targetBack="//@transformationUnitRelations.1" isExhaustive="true">
+    <actions operatesOn="//@variables.5"/>
+    <constraints operatesOn="//@variables.2 //@variables.0 //@variables.3 //@variables.4 //@variables.1"/>
+    <negativeConstraints operatesOn="//@variables.5"/>
+  </units>
+  <units xsi:type="delta:End" targetBack="//@transformationUnitRelations.2"/>
+  <patternMetamodels name="mm">
+    <elements xsi:type="delta:Entity" name="child" traceSourceBack="//@types.2" sourceBack="//@patternMetamodels.0/@elements.3"/>
+    <elements xsi:type="delta:Entity" name="parent" traceSourceBack="//@types.1" traceTargetBack="//@types.0" targetBack="//@patternMetamodels.0/@elements.3"/>
+    <elements xsi:type="delta:Entity" name="ancestor" traceTargetBack="//@types.2"/>
+    <elements xsi:type="delta:Relation" name="rel1" source="//@patternMetamodels.0/@elements.0" target="//@patternMetamodels.0/@elements.1"/>
+  </patternMetamodels>
+  <types xsi:type="delta:Trace" name="childVparent" target="//@patternMetamodels.0/@elements.1"/>
+  <types xsi:type="delta:Trace" name="parentVancestor" source="//@patternMetamodels.0/@elements.1"/>
+  <types xsi:type="delta:Trace" name="childVancestor" source="//@patternMetamodels.0/@elements.0" target="//@patternMetamodels.0/@elements.2"/>
+  <variables name="childVar" type="//@patternMetamodels.0/@elements.0"/>
+  <variables name="parentVar" type="//@patternMetamodels.0/@elements.1"/>
+  <variables name="ancestorVar" type="//@patternMetamodels.0/@elements.2"/>
+  <variables name="childVparentTraceVar" type="//@types.0"/>
+  <variables name="parentVancestorTraceVar" type="//@types.1"/>
+  <variables name="childVancestorTraceVar" type="//@types.2"/>
+  <variables name="rel1var" type="//@patternMetamodels.0/@elements.3"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.0" target="//@units.1"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.1" target="//@units.2"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.2" target="//@units.3"/>
+</delta:ModelTransformationDesignPattern>
