@@ -13,13 +13,13 @@
   </units>
   <units xsi:type="delta:End" targetBack="//@transformationUnitRelations.2"/>
   <patternMetamodels name="mm">
-    <elements xsi:type="delta:Entity" name="child" traceSourceBack="//@types.2" sourceBack="//@patternMetamodels.0/@elements.3"/>
+    <elements xsi:type="delta:Entity" name="child" traceSourceBack="//@types.2 //@types.0" sourceBack="//@patternMetamodels.0/@elements.3"/>
     <elements xsi:type="delta:Entity" name="parent" traceSourceBack="//@types.1" traceTargetBack="//@types.0" targetBack="//@patternMetamodels.0/@elements.3"/>
-    <elements xsi:type="delta:Entity" name="ancestor" traceTargetBack="//@types.2"/>
+    <elements xsi:type="delta:Entity" name="ancestor" traceTargetBack="//@types.1 //@types.2"/>
     <elements xsi:type="delta:Relation" name="rel1" source="//@patternMetamodels.0/@elements.0" target="//@patternMetamodels.0/@elements.1"/>
   </patternMetamodels>
-  <types xsi:type="delta:Trace" name="childVparent" target="//@patternMetamodels.0/@elements.1"/>
-  <types xsi:type="delta:Trace" name="parentVancestor" source="//@patternMetamodels.0/@elements.1"/>
+  <types xsi:type="delta:Trace" name="childVparent" source="//@patternMetamodels.0/@elements.0" target="//@patternMetamodels.0/@elements.1"/>
+  <types xsi:type="delta:Trace" name="parentVancestor" source="//@patternMetamodels.0/@elements.1" target="//@patternMetamodels.0/@elements.2"/>
   <types xsi:type="delta:Trace" name="childVancestor" source="//@patternMetamodels.0/@elements.0" target="//@patternMetamodels.0/@elements.2"/>
   <variables name="childVar" type="//@patternMetamodels.0/@elements.0"/>
   <variables name="parentVar" type="//@patternMetamodels.0/@elements.1"/>
