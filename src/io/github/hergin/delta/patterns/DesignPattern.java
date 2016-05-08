@@ -10,12 +10,22 @@ public class DesignPattern {
 	List<Param> params;
 	String name;
 	String details;
+	String xmiName;
 
 	public DesignPattern(String name, String path, List<Param> params, String details) {
 		this.name = name;
 		this.params = params;
 		this.path = path;
 		this.details = details;
+	}
+
+	public DesignPattern(String name, String path, List<Param> params, String details, String xmiName) {
+		this(name, path, params, details);
+		this.xmiName = xmiName;
+	}
+
+	public String getXmiName() {
+		return xmiName;
 	}
 
 	public String getPath() {

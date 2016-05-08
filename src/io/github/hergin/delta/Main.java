@@ -43,19 +43,20 @@ public class Main {
 		patterns.add(new DesignPattern("Entity Before Relation", "/io/github/hergin/delta/patterns/ER-Mapping.png",
 				new ArrayList<Param>() {
 					{
-						add(new Param("src", ""));
-						add(new Param("trgt", ""));
-						add(new Param("entityMapping", ""));
-						add(new Param("relationMapping", ""));
-						add(new Param("sEnt", ""));
-						add(new Param("tEnt", ""));
-						add(new Param("sEnt2", ""));
-						add(new Param("tEnt2", ""));
-						add(new Param("rel1", ""));
-						add(new Param("rel2", ""));
+						add(new Param("src", "ClassDiagram"));
+						add(new Param("trgt", "RelationalDatabase"));
+						add(new Param("entityMapping", "class2table"));
+						add(new Param("relationMapping", "attribute2column"));
+						add(new Param("sEnt", "Class"));
+						add(new Param("tEnt", "Table"));
+						add(new Param("sEnt2", "Attribute"));
+						add(new Param("tEnt2", "Column"));
+						add(new Param("rel1", "attrs"));
+						add(new Param("rel2", "cols"));
 					}
 				},
-				"<html><b>Summary:</b> Entity before relation pattern is one of the most<br/>commonly used transformation patterns in exogenous transformations to<br/>encode a mapping between two languages. It creates the elements in a<br/>language corresponding to elements from another language and establishes<br/>traceability links between the elements of source and target languages.<br/><br/><b>Application Conditions:</b> The entity before relation pattern is applicable<br/>when we want to translate elements from one metamodel into elements from<br/>another metamodel. <br/><br/><b>Solution:</b> The pattern first maps entities from the source language to the<br/>corresponding target entities in the entityMapping rule, while maintaining a<br/>traceability link between them. Then, relationships of the source language are<br/>mapped to their target language equivalents.<br/><br/><b>Benefits:</b> With the help of traceability links, each element in the target<br/>language has a corresponding element in the source language. This improves<br/>debugging capabilities and error localization.<br/><br/><b>Disadvantages:</b> The pattern has no known disadvantages. However, the<br/>traceability links should be removed after the transformation is applied.<br/><br/><b>Examples:</b> A typical example of entity before relation pattern is in the<br/>transformation from class diagram to relational database diagrams, where, for<br/>example, a class is transformed to a table, an attribute to a column, and the<br/>relation between class and attribute to a relation between table and column.<br/><br/><b>Related patterns:</b> The pattern can be identified as a special case of Phased<br/>Construction, where the phases are, first, the entities and, then, the relations.<br/><br/><b>Variations:</b> The mapping can be done in either many-to-one or one-to-many<br/>with respect to the relation between source and target metamodels."));
+				"<html><b>Summary:</b> Entity before relation pattern is one of the most<br/>commonly used transformation patterns in exogenous transformations to<br/>encode a mapping between two languages. It creates the elements in a<br/>language corresponding to elements from another language and establishes<br/>traceability links between the elements of source and target languages.<br/><br/><b>Application Conditions:</b> The entity before relation pattern is applicable<br/>when we want to translate elements from one metamodel into elements from<br/>another metamodel. <br/><br/><b>Solution:</b> The pattern first maps entities from the source language to the<br/>corresponding target entities in the entityMapping rule, while maintaining a<br/>traceability link between them. Then, relationships of the source language are<br/>mapped to their target language equivalents.<br/><br/><b>Benefits:</b> With the help of traceability links, each element in the target<br/>language has a corresponding element in the source language. This improves<br/>debugging capabilities and error localization.<br/><br/><b>Disadvantages:</b> The pattern has no known disadvantages. However, the<br/>traceability links should be removed after the transformation is applied.<br/><br/><b>Examples:</b> A typical example of entity before relation pattern is in the<br/>transformation from class diagram to relational database diagrams, where, for<br/>example, a class is transformed to a table, an attribute to a column, and the<br/>relation between class and attribute to a relation between table and column.<br/><br/><b>Related patterns:</b> The pattern can be identified as a special case of Phased<br/>Construction, where the phases are, first, the entities and, then, the relations.<br/><br/><b>Variations:</b> The mapping can be done in either many-to-one or one-to-many<br/>with respect to the relation between source and target metamodels.",
+				"ERMapping"));
 		patterns.add(new DesignPattern("Transitive Closure", "/io/github/hergin/delta/patterns/Transitive-Closure.png",
 				new ArrayList<Param>() {
 					{

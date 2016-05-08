@@ -1,6 +1,7 @@
 «IMPORT delta-»
 
-«EXTENSION template::grgenGeneral»
+«EXTENSION template::grgenGlobal»
+«EXTENSION template::grgenDynamic»
 
 «DEFINE main FOR ModelTransformationDesignPattern-»
 «FILE getDPName()+"_RULES.grg"-»

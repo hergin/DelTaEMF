@@ -9,6 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +24,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -95,6 +103,29 @@ public class DelTaUI extends JPanel {
 		repaint();
 	}
 
+	public void createDynamicExtFile() {
+		File f = new File(URI.createFileURI("src/template/grgenDynamic.ext").toString());
+		try {
+			BufferedWriter writer = Files.newBufferedWriter(f.toPath());
+			writer.write("import delta;\n\n");
+			writer.write("String getName(String s):\n");
+			writer.write("\tswitch(s) {\n");
+			for (Param p : patterns.get(dpListComboBox.getSelectedIndex()).getParams()) {
+				writer.write("\t\tcase '" + p.getKey() + "':'" + (p.getValue().isEmpty() ? p.getKey() : p.getValue())
+						+ "'\n");
+			}
+			writer.write("\t\tcase 'designPatternName': '"
+					+ patterns.get(dpListComboBox.getSelectedIndex()).getName().replace(' ', '_') + "'\n");
+			writer.write("\t\tdefault: s\n");
+			writer.write("\t};\n\n");
+			writer.write("String getDPName():\n");
+			writer.write("\tgetName('designPatternName');");
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void initComponents() {
 		dpListComboBox = new JComboBox<String>();
 		dpListLabel = new JLabel();
@@ -146,13 +177,32 @@ public class DelTaUI extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				WorkflowEngine engine = new WorkflowEngine();
 
-				HashMap<String, String> params = new HashMap<String, String>();
-				params.put("pattern", "ERMapping");
+				if (patterns.get(dpListComboBox.getSelectedIndex()).getXmiName() == null) {
+					JOptionPane.showMessageDialog(null,
+							"This design pattern doesn't have an XMI model. Please create it first!", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 
-				engine.run(URI.createFileURI("src/workflow/generateGrgen.mwe").toFileString(),
-						new NullProgressMonitor(), params, new HashMap<String, Object>());
+				JFileChooser fc = new JFileChooser();
+				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fc.setDialogTitle(
+						"Choose a folder for generated codes. Most possibly your transformation project folder.");
+				int result = fc.showSaveDialog(DelTaUI.this);
+
+				createDynamicExtFile();
+
+				if (result == JFileChooser.APPROVE_OPTION) {
+					WorkflowEngine engine = new WorkflowEngine();
+
+					HashMap<String, String> params = new HashMap<String, String>();
+					params.put("pattern", patterns.get(dpListComboBox.getSelectedIndex()).getXmiName());
+					params.put("src-gen", fc.getSelectedFile().getAbsolutePath());
+
+					engine.run(URI.createFileURI("src/workflow/generateGrgen.mwe").toFileString(),
+							new NullProgressMonitor(), params, new HashMap<String, Object>());
+				}
 			}
 		});
 

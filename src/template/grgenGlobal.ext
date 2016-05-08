@@ -1,0 +1,14 @@
+import delta;
+
+Boolean checkForEnd(Object e):
+	e.metaType==End;
+
+List[ConditionTag] getConditions(Rule this):
+	this.constraints.operatesOn.tags.typeSelect(ConditionTag);
+
+List[ActionTag] getActions(Rule this):
+	this.constraints.operatesOn.tags.typeSelect(ActionTag);
+
+Variable getReferredVariable(Tag this):
+	(Variable)this.eContainer;
+	

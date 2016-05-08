@@ -1,0 +1,20 @@
+import delta;
+
+String getName(String s):
+	switch(s) {
+		case 'src':'ClassDiagram'
+		case 'trgt':'RelationalDatabase'
+		case 'entityMapping':'class2table'
+		case 'relationMapping':'attribute2column'
+		case 'sEnt':'Class'
+		case 'tEnt':'Table'
+		case 'sEnt2':'Attribute'
+		case 'tEnt2':'Column'
+		case 'rel1':'attrs'
+		case 'rel2':'cols'
+		case 'designPatternName': 'Entity_Before_Relation'
+		default: s
+	};
+
+String getDPName():
+	getName('designPatternName');
