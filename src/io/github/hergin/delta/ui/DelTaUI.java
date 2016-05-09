@@ -9,13 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +38,7 @@ import io.github.hergin.delta.patterns.DesignPattern;
 /**
  * @author Huseyin Ergin
  */
-public class DelTaUI extends JPanel {
+public class DelTaUI extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	List<DesignPattern> patterns;
@@ -171,38 +168,7 @@ public class DelTaUI extends JPanel {
 		add(langsComboBox);
 		langsComboBox.setBounds(110, 385, 135, 20);
 
-		generateButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				if (patterns.get(dpListComboBox.getSelectedIndex()).getXmiName() == null) {
-					JOptionPane.showMessageDialog(null,
-							"This design pattern doesn't have an XMI model. Please create it first!", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				JFileChooser fc = new JFileChooser();
-				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				fc.setDialogTitle(
-						"Choose a folder for generated codes. Most possibly your transformation project folder.");
-				int result = fc.showSaveDialog(DelTaUI.this);
-
-				createDynamicExtFile();
-
-				if (result == JFileChooser.APPROVE_OPTION) {
-					WorkflowEngine engine = new WorkflowEngine();
-
-					HashMap<String, String> params = new HashMap<String, String>();
-					params.put("pattern", patterns.get(dpListComboBox.getSelectedIndex()).getXmiName());
-					params.put("src-gen", fc.getSelectedFile().getAbsolutePath());
-
-					engine.run(URI.createFileURI("src/workflow/generateGrgen.mwe").toFileString(),
-							new NullProgressMonitor(), params, new HashMap<String, Object>());
-				}
-			}
-		});
+		generateButton.addActionListener(this);
 
 		targetLangLabel.setText("Target language");
 		targetLangLabel.setLabelFor(langsComboBox);
@@ -247,4 +213,38 @@ public class DelTaUI extends JPanel {
 	private JComboBox<String> langsComboBox;
 	private JLabel targetLangLabel;
 	private JButton showDetailButton;
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (patterns.get(dpListComboBox.getSelectedIndex()).getXmiName() == null) {
+			JOptionPane.showMessageDialog(null,
+					"This design pattern doesn't have an XMI model. Please create it first!", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		JFileChooser fc = new JFileChooser();
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fc.setDialogTitle("Choose a folder for generated codes. Most possibly your transformation project folder.");
+		int result = fc.showSaveDialog(DelTaUI.this);
+
+		createDynamicExtFile();
+
+		if (result == JFileChooser.APPROVE_OPTION) {
+			WorkflowEngine engine = new WorkflowEngine();
+
+			HashMap<String, String> params = new HashMap<String, String>();
+			params.put("src-gen", fc.getSelectedFile().getAbsolutePath());
+			params.put(
+					"patternModel", URI
+							.createPlatformResourceURI(
+									"DelTaEMF/src/designpattern/"
+											+ patterns.get(dpListComboBox.getSelectedIndex()).getXmiName() + ".xmi",
+									false)
+							.toString());
+
+			engine.run(URI.createFileURI("src/workflow/grgen-dynamic.mwe").toFileString(), new NullProgressMonitor(),
+					params, new HashMap<String, Object>());
+		}
+	}
 }

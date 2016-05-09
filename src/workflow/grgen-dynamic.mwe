@@ -1,11 +1,6 @@
 <?xml version="1.0"?>
 <workflow>
-
-	<property name="src-gen" value="src-gen" />
 	
-	<property name="patternModel" value="platform:/resource/hergin.delta/src/designpattern/${pattern}.xmi" />
-	
-
 	<!-- set up EMF for standalone execution -->
 	<bean class="org.eclipse.emf.mwe.utils.StandaloneSetup" >
 		<platformUri value=".."/>
@@ -36,6 +31,5 @@
 		<resourceManager class ="org.eclipse.xtend.expression.ResourceManagerDefaultImpl">
 			<fileEncoding value="ISO-8859-1"/>
 		</resourceManager>
-		<globalVarDef name="currentPattern" value="'${pattern}'"/>
 	</component>
 </workflow>
