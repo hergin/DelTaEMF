@@ -1,0 +1,1 @@
+java -cp "src;lib/*" io.github.hergin.delta.Main
