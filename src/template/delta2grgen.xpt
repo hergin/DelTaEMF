@@ -6,13 +6,13 @@
 «DEFINE main FOR ModelTransformationDesignPattern-»
 «FILE getDPName()+"_RULES.grg"-»
 «EXPAND patternMetamodel FOREACH patternMetamodels-»
-#using "Trace.gm";
+#using "Trace.gm"
 «EXPAND unit FOREACH units-»
 «ENDFILE-»
 «ENDDEFINE-»
 
 «DEFINE patternMetamodel FOR PatternMetamodel-»
-#using "«getName(this.name)».gm";
+#using "«getName(this.name)».gm"
 «ENDDEFINE-»
 
 «DEFINE unit FOR TransformationUnit-»
@@ -95,7 +95,7 @@ rule «getName(this.name)» {
 
 «DEFINE unit FOR Start-»
 «FILE getDPName()+"_SCHED.grs"-»
-«EXPAND sequenceRecursive FOR this.sourceBack-»
+exec «EXPAND sequenceRecursive FOR this.sourceBack-»
 «ENDFILE-»
 «ENDDEFINE-»
 

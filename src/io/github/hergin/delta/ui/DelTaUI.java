@@ -247,6 +247,12 @@ public class DelTaUI extends JPanel implements ActionListener {
 
 			engine.run(URI.createFileURI("src/workflow/grgen-dynamic.mwe").toFileString(), new NullProgressMonitor(),
 					params, new HashMap<String, Object>());
+
+			JOptionPane.showMessageDialog(DelTaUI.this, "Two files are generated: "
+					+ patterns.get(dpListComboBox.getSelectedIndex()).getName().replace(' ', '_') + "_RULES.grg and "
+					+ patterns.get(dpListComboBox.getSelectedIndex()).getName().replace(' ', '_') + "_SCHED.grs",
+					"Files generated!", JOptionPane.INFORMATION_MESSAGE);
+
 		}
 	}
 }
