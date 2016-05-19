@@ -2,7 +2,7 @@ import delta;
 
 String getName(String s):
 	switch(s) {
-		case 'src':'ClassDsiagram'
+		case 'src':'ClassDiagram'
 		case 'trgt':'RelationalDatabase'
 		case 'entityMapping':'class2table'
 		case 'relationMapping':'attribute2column'

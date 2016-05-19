@@ -6,13 +6,13 @@
 «DEFINE main FOR ModelTransformationDesignPattern-»
 «FILE getDPName()+"_RULES.grg"-»
 «EXPAND patternMetamodel FOREACH patternMetamodels-»
-using Trace;
+#using "Trace.gm";
 «EXPAND unit FOREACH units-»
 «ENDFILE-»
 «ENDDEFINE-»
 
 «DEFINE patternMetamodel FOR PatternMetamodel-»
-using «getName(this.name)»;
+#using "«getName(this.name)».gm";
 «ENDDEFINE-»
 
 «DEFINE unit FOR TransformationUnit-»

@@ -226,6 +226,8 @@ public class DelTaUI extends JPanel implements ActionListener {
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fc.setDialogTitle("Choose a folder for generated codes. Most possibly your transformation project folder.");
+		fc.setCurrentDirectory(
+				new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Desktop"));
 		int result = fc.showSaveDialog(DelTaUI.this);
 
 		createDynamicExtFile();

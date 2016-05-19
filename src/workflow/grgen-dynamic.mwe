@@ -15,10 +15,10 @@
 		<modelSlot value="model" />
 	</component>
 
-    <!-- Clear output directory -->
+    <!-- Clear output directory 
 	<component class="org.eclipse.emf.mwe.utils.DirectoryCleaner">
 			<directory value="${src-gen}"/>
-	</component>
+	</component>-->
 
 	<!--  generate code -->
 	<component class="org.eclipse.xpand2.Generator">
