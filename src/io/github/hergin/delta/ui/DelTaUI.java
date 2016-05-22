@@ -21,10 +21,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
@@ -67,35 +70,47 @@ public class DelTaUI extends JPanel implements ActionListener {
 				new ImageIcon(getClass().getResource(patterns.get(dpListComboBox.getSelectedIndex()).getPath())));
 		dpImage.setBounds(new Rectangle(new Point(30, 145), dpImage.getPreferredSize()));
 
-		int startingX = 650, startingY = 100, stepY = 25, currentX = startingX, currentY = startingY;
+		int startingX = 700, startingY = 100, stepY = 22, currentX = startingX, currentY = startingY;
 		for (Param p : patterns.get(dpListComboBox.getSelectedIndex()).getParams()) {
-			JLabel tempLabel = new JLabel();
-			tempLabel.setText(p.getKey());
-			add(tempLabel);
-			tempLabel.setBounds(new Rectangle(new Point(currentX, currentY), tempLabel.getPreferredSize()));
-			JTextField tempTextField = new JTextField();
-			tempTextField.setText(p.getValue());
-			add(tempTextField);
-			tempTextField.setBounds(currentX + 100, currentY - 5, 100, tempTextField.getPreferredSize().height);
-			tempTextField.addKeyListener(new KeyListener() {
+			JLabel tempLabel;
+			if (p.getKey().isEmpty()) {
+				tempLabel = new JLabel();
+				tempLabel.setText(p.getDisplayName());
+				tempLabel.setFont(tempLabel.getFont().deriveFont(tempLabel.getFont().getStyle() | Font.BOLD));
+				tempLabel.setBounds(new Rectangle(new Point(currentX - 20, currentY), tempLabel.getPreferredSize()));
+				add(tempLabel);
+			} else {
+				tempLabel = new JLabel();
+				if (p.getDisplayName().isEmpty())
+					tempLabel.setText(p.getKey());
+				else
+					tempLabel.setText(p.getDisplayName());
+				add(tempLabel);
+				tempLabel.setBounds(new Rectangle(new Point(currentX, currentY), tempLabel.getPreferredSize()));
+				JTextField tempTextField = new JTextField();
+				tempTextField.setText(p.getValue());
+				add(tempTextField);
+				tempTextField.setBounds(currentX + 100, currentY - 5, 100, tempTextField.getPreferredSize().height);
+				tempTextField.addKeyListener(new KeyListener() {
 
-				@Override
-				public void keyTyped(KeyEvent e) {
-				}
+					@Override
+					public void keyTyped(KeyEvent e) {
+					}
 
-				@Override
-				public void keyReleased(KeyEvent e) {
-					patterns.get(dpListComboBox.getSelectedIndex()).updateParam(p.getKey(),
-							((JTextField) e.getSource()).getText());
-				}
+					@Override
+					public void keyReleased(KeyEvent e) {
+						patterns.get(dpListComboBox.getSelectedIndex()).updateParam(p.getKey(),
+								((JTextField) e.getSource()).getText());
+					}
 
-				@Override
-				public void keyPressed(KeyEvent e) {
-				}
-			});
+					@Override
+					public void keyPressed(KeyEvent e) {
+					}
+				});
+				existingParams.add(tempTextField);
+			}
 			currentY += stepY;
 			existingParams.add(tempLabel);
-			existingParams.add(tempTextField);
 		}
 		repaint();
 	}
@@ -108,8 +123,9 @@ public class DelTaUI extends JPanel implements ActionListener {
 			writer.write("String getName(String s):\n");
 			writer.write("\tswitch(s) {\n");
 			for (Param p : patterns.get(dpListComboBox.getSelectedIndex()).getParams()) {
-				writer.write("\t\tcase '" + p.getKey() + "':'" + (p.getValue().isEmpty() ? p.getKey() : p.getValue())
-						+ "'\n");
+				if (!p.getKey().isEmpty())
+					writer.write("\t\tcase '" + p.getKey() + "':'"
+							+ (p.getValue().isEmpty() ? p.getKey() : p.getValue()) + "'\n");
 			}
 			writer.write("\t\tcase 'designPatternName': '"
 					+ patterns.get(dpListComboBox.getSelectedIndex()).getName().replace(' ', '_') + "'\n");
@@ -150,10 +166,11 @@ public class DelTaUI extends JPanel implements ActionListener {
 		add(dpListLabel);
 		dpListLabel.setBounds(new Rectangle(new Point(20, 65), dpListLabel.getPreferredSize()));
 
-		paramsLabel.setText("Parameters");
-		paramsLabel.setFont(paramsLabel.getFont().deriveFont(paramsLabel.getFont().getStyle() | Font.BOLD));
+		paramsLabel.setText("Participant Customizations");
+		paramsLabel.setFont(paramsLabel.getFont().deriveFont(paramsLabel.getFont().getStyle() | Font.BOLD,
+				paramsLabel.getFont().getSize() + 3f));
 		add(paramsLabel);
-		paramsLabel.setBounds(new Rectangle(new Point(730, 70), paramsLabel.getPreferredSize()));
+		paramsLabel.setBounds(new Rectangle(new Point(700, 70), paramsLabel.getPreferredSize()));
 		add(dpImage);
 
 		appLabel.setText("Generate Models from Design Patterns");
@@ -164,16 +181,16 @@ public class DelTaUI extends JPanel implements ActionListener {
 
 		generateButton.setText("Generate Transformation Model");
 		add(generateButton);
-		generateButton.setBounds(new Rectangle(new Point(665, 385), generateButton.getPreferredSize()));
+		generateButton.setBounds(new Rectangle(new Point(700, 420), generateButton.getPreferredSize()));
 		add(langsComboBox);
-		langsComboBox.setBounds(110, 385, 135, 20);
+		langsComboBox.setBounds(110, 420, 135, 20);
 
 		generateButton.addActionListener(this);
 
 		targetLangLabel.setText("Target language");
 		targetLangLabel.setLabelFor(langsComboBox);
 		add(targetLangLabel);
-		targetLangLabel.setBounds(20, 390, 114, 14);
+		targetLangLabel.setBounds(20, 425, 114, 14);
 
 		showDetailButton.setText("Show Design Pattern Details");
 		showDetailButton.setIcon(UIManager.getIcon("FileChooser.viewMenuIcon"));
@@ -245,12 +262,25 @@ public class DelTaUI extends JPanel implements ActionListener {
 									false)
 							.toString());
 
+			JPanel center_panel = new JPanel();
+			JProgressBar pb = new JProgressBar();
+			pb.setIndeterminate(true);
+			pb.setPreferredSize(new Dimension(175, 20));
+			center_panel.add(pb);
+			JDialog dialog = new JDialog((JFrame) null, "Working...");
+			dialog.getContentPane().add(center_panel);
+			dialog.pack();
+			dialog.setLocationRelativeTo(DelTaUI.this);
+			dialog.setVisible(true);
+
 			engine.run(URI.createFileURI("src/workflow/grgen-dynamic.mwe").toFileString(), new NullProgressMonitor(),
 					params, new HashMap<String, Object>());
 
-			JOptionPane.showMessageDialog(DelTaUI.this, "Two files are generated: "
-					+ patterns.get(dpListComboBox.getSelectedIndex()).getName().replace(' ', '_') + "_RULES.grg and "
-					+ patterns.get(dpListComboBox.getSelectedIndex()).getName().replace(' ', '_') + "_SCHED.grs",
+			dialog.dispose();
+
+			JOptionPane.showMessageDialog(DelTaUI.this, "<html>Two files are generated: <br/><b>*"
+					+ patterns.get(dpListComboBox.getSelectedIndex()).getName().replace(' ', '_') + "_RULES.grg<br/>*"
+					+ patterns.get(dpListComboBox.getSelectedIndex()).getName().replace(' ', '_') + "_SCHED.grs</b>",
 					"Files generated!", JOptionPane.INFORMATION_MESSAGE);
 
 		}
