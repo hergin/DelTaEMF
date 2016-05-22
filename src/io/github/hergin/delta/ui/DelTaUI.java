@@ -90,7 +90,7 @@ public class DelTaUI extends JPanel implements ActionListener {
 				JTextField tempTextField = new JTextField();
 				tempTextField.setText(p.getValue());
 				add(tempTextField);
-				tempTextField.setBounds(currentX + 100, currentY - 5, 100, tempTextField.getPreferredSize().height);
+				tempTextField.setBounds(currentX + 120, currentY - 5, 100, tempTextField.getPreferredSize().height);
 				tempTextField.addKeyListener(new KeyListener() {
 
 					@Override
