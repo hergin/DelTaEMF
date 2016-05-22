@@ -26,7 +26,7 @@ public class Main {
 		DelTaUI theUI = new DelTaUI(patterns);
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(theUI, BorderLayout.CENTER);
-		frame.setSize(975, 500);
+		frame.setSize(975, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setTitle("DelTa Model Generator UI");

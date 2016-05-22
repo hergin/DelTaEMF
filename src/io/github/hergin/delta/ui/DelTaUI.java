@@ -181,16 +181,16 @@ public class DelTaUI extends JPanel implements ActionListener {
 
 		generateButton.setText("Generate Transformation Model");
 		add(generateButton);
-		generateButton.setBounds(new Rectangle(new Point(700, 420), generateButton.getPreferredSize()));
+		generateButton.setBounds(new Rectangle(new Point(700, 470), generateButton.getPreferredSize()));
 		add(langsComboBox);
-		langsComboBox.setBounds(110, 420, 135, 20);
+		langsComboBox.setBounds(110, 470, 135, 20);
 
 		generateButton.addActionListener(this);
 
 		targetLangLabel.setText("Target language");
 		targetLangLabel.setLabelFor(langsComboBox);
 		add(targetLangLabel);
-		targetLangLabel.setBounds(20, 425, 114, 14);
+		targetLangLabel.setBounds(20, 475, 114, 14);
 
 		showDetailButton.setText("Show Design Pattern Details");
 		showDetailButton.setIcon(UIManager.getIcon("FileChooser.viewMenuIcon"));
