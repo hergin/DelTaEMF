@@ -100,6 +100,25 @@ public class Main {
 					}
 				}, "<html><b>Summary:</b> This pattern traverses all the nodes in a tree and processes<br/>each entity individually.<br/><br/><b>Application Conditions:</b> The pattern can be applied to problems that consist<br/>of (or can be mapped to) a tree structure where all the nodes need to be processed<br/>individually.<br/><br/><b>Solution:</b> The pattern starts by marking an entity with an action tag in the<br/>markInitEntity rule. Then, in the visitEntity rule, the marked entity is tagged as<br/>processed, if it has not been processed yet.<br/>The markNextEntity rule marks the immediate child of the last processed entities as<br/>marked and returns back to the visitEntity rule.<br/>It accomplishes this with a decision relation and fail/success branches. The condition<br/>and action tags appear in the low compartment of the entity.<br/><br/><b>Benefits:</b> The pattern allows for the individual processing of nodes in a<br/>specific order, rather than bulk modification operations of model transformations.<br/>Note that a context can be provided when processing an entity of the metamodel.<br/>The pattern also allows for different model traversal strategies.<br/><br/><b>Disadvantages:</b> A loop helps to traverse the tree structure, therefore the<br/>parallelization of the rules is more difficult.<br/><br/><b>Examples:</b> This pattern can be used to compute the depth level of each class<br/>in a class inheritance hierarchy, which represents its distance from the base class.<br/><br/><b>Related patterns:</b> The pattern is related to phased construction and recursive<br/>descent patterns, when the structure resembles a tree.<br/><br/><b>Variations:</b> The context that is needed to process elements can change. Also,<br/>visitEntity and markNextEntity rules can be NoSched rules with one rule per type<br/>inside to parallelize them. Finally, the ordering of the visit can be adapted to<br/>be depth-first, breadth-first, or custom order.",
 						"Visitor"));
+		patterns.add(
+				new DesignPattern("IMDB Sample", "/io/github/hergin/delta/patterns/imdb.png", new ArrayList<Param>() {
+					private static final long serialVersionUID = 1L;
+					{
+						add(new Param("", "", "Metamodels"));
+						add(new Param("mm", "IMDB"));
+						add(new Param("", "", "Rule createNewEntity"));
+						add(new Param("createNewEntity", "createGroups"));
+						add(new Param("commonEntity", "Movie"));
+						add(new Param("singleEntity1", "Person"));
+						add(new Param("singleEntity2", "Person"));
+						add(new Param("newEntity", "Group"));
+						add(new Param("relSingle1Common", "playedIn", "relation singleEnt1 commonEnt"));
+						add(new Param("relSingle2Common", "playedIn", "relation singleEnt2 commonEnt"));
+						add(new Param("relSingle1New", "memberOf", "relation singleEnt1 newEnt"));
+						add(new Param("relSingle2New", "memberOf", "relation singleEnt2 newEnt"));
+					}
+				}, "This is not a real design pattern. We put it here to demonstrate the capabilities of the tool.",
+						"imdb"));
 	}
 
 }

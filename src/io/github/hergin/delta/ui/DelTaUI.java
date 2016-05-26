@@ -70,7 +70,7 @@ public class DelTaUI extends JPanel implements ActionListener {
 				new ImageIcon(getClass().getResource(patterns.get(dpListComboBox.getSelectedIndex()).getPath())));
 		dpImage.setBounds(new Rectangle(new Point(30, 145), dpImage.getPreferredSize()));
 
-		int startingX = 700, startingY = 100, stepY = 22, currentX = startingX, currentY = startingY;
+		int startingX = 650, startingY = 100, stepY = 22, currentX = startingX, currentY = startingY;
 		for (Param p : patterns.get(dpListComboBox.getSelectedIndex()).getParams()) {
 			JLabel tempLabel;
 			if (p.getKey().isEmpty()) {
@@ -90,7 +90,7 @@ public class DelTaUI extends JPanel implements ActionListener {
 				JTextField tempTextField = new JTextField();
 				tempTextField.setText(p.getValue());
 				add(tempTextField);
-				tempTextField.setBounds(currentX + 120, currentY - 5, 100, tempTextField.getPreferredSize().height);
+				tempTextField.setBounds(currentX + 170, currentY - 5, 100, tempTextField.getPreferredSize().height);
 				tempTextField.addKeyListener(new KeyListener() {
 
 					@Override

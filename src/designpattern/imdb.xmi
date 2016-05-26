@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<delta:ModelTransformationDesignPattern xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:delta="http://hergin/delta" xsi:schemaLocation="http://hergin/delta ../metamodel/DelTa.ecore" name="CreateSomething">
+  <units xsi:type="delta:Start" sourceBack="//@transformationUnitRelations.0"/>
+  <units xsi:type="delta:Rule" name="createNewEntity" sourceBack="//@transformationUnitRelations.1" targetBack="//@transformationUnitRelations.0" isExhaustive="true">
+    <actions operatesOn="//@variables.3 //@variables.6 //@variables.7"/>
+    <constraints operatesOn="//@variables.0 //@variables.4 //@variables.5 //@variables.1 //@variables.2"/>
+    <negativeConstraints operatesOn="//@variables.3 //@variables.6 //@variables.7"/>
+  </units>
+  <units xsi:type="delta:End" targetBack="//@transformationUnitRelations.1"/>
+  <patternMetamodels name="mm">
+    <elements xsi:type="delta:Entity" name="commonEntity" targetBack="//@patternMetamodels.0/@elements.4 //@patternMetamodels.0/@elements.5"/>
+    <elements xsi:type="delta:Entity" name="singleEntity1" sourceBack="//@patternMetamodels.0/@elements.4 //@patternMetamodels.0/@elements.6"/>
+    <elements xsi:type="delta:Entity" name="singleEntity2" sourceBack="//@patternMetamodels.0/@elements.5 //@patternMetamodels.0/@elements.7"/>
+    <elements xsi:type="delta:Entity" name="newEntity" targetBack="//@patternMetamodels.0/@elements.6 //@patternMetamodels.0/@elements.7"/>
+    <elements xsi:type="delta:Relation" name="relSingle1Common" source="//@patternMetamodels.0/@elements.1" target="//@patternMetamodels.0/@elements.0"/>
+    <elements xsi:type="delta:Relation" name="relSingle2Common" source="//@patternMetamodels.0/@elements.2" target="//@patternMetamodels.0/@elements.0"/>
+    <elements xsi:type="delta:Relation" name="relSingle1New" source="//@patternMetamodels.0/@elements.1" target="//@patternMetamodels.0/@elements.3"/>
+    <elements xsi:type="delta:Relation" name="relSingle2New" source="//@patternMetamodels.0/@elements.2" target="//@patternMetamodels.0/@elements.3"/>
+  </patternMetamodels>
+  <variables name="commonEntityVar" type="//@patternMetamodels.0/@elements.0"/>
+  <variables name="singleEntity1Var" type="//@patternMetamodels.0/@elements.1"/>
+  <variables name="singleEntity2Var" type="//@patternMetamodels.0/@elements.2"/>
+  <variables name="newEntityVar" type="//@patternMetamodels.0/@elements.3"/>
+  <variables name="relSingle1CommonVar" type="//@patternMetamodels.0/@elements.4"/>
+  <variables name="relSingle2Common" type="//@patternMetamodels.0/@elements.5"/>
+  <variables name="relSingle1NewVar" type="//@patternMetamodels.0/@elements.6"/>
+  <variables name="relSingle2NewVar" type="//@patternMetamodels.0/@elements.7"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.0" target="//@units.1"/>
+  <transformationUnitRelations xsi:type="delta:Sequence" source="//@units.1" target="//@units.2"/>
+</delta:ModelTransformationDesignPattern>
